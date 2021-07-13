@@ -1,0 +1,40 @@
+name: 'Lint Python Projects and Sync with AWS codecommit'
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      workdir: ./
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pylint
+    - name: Analysing the code with pylint
+      run: |
+        python3 -m pylint --rcfile=.pylintrc ${{ env.workdir }}*.py
+
+  to_codecommit:                                        # <-- different jobs are executed in parallel.
+
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@v1
+    - uses: pixta-dev/repository-mirroring-action@v1
+      with:
+        target_repo_url:
+          ssh://git-codecommit.us-west-2.amazonaws.com/v1/repos/greengrass-iot-cicd-sample
+        ssh_private_key:
+          ${{ secrets.MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvVvtUGUE9HbKXMgaUBJQJwqKrjkfyHpeKwP8OrQEsQYAPh0blT2+d/vD5zsbMd6TlFf04aeGp+zqngNa2Q0+IEXa3mV0vWd0TyYe8x1ewRkXTUm+z64/HpTCCVPCs6ubf3zs9yhltbgFBESU6qJCLV635KPA+XSHBBibW2QDTGkzBMR3SwveP8OTTwlX/azsbpyfxE8csQUYAQvrDpJVr3pHaxykzKzLYkTadUWp8JbHLj90m7B/HKOqUc94fdL+wcqzm2mu3G85rxOkZsqypU0KYhS2Bq5N1d1BzJKz+7/zaIbHG/JE09hMQeUGsqizH+GGOTx4S/xOY6iouQcQPQIDAQAB }}
+        ssh_username:                                   # <-- (for codecommit) you need to specify ssh-key-id as ssh username.
+          ${{ secrets.APKAWY6ROYTWTZZ4PMFH }}
