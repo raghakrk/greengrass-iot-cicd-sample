@@ -35,6 +35,6 @@ jobs:
         target_repo_url:
           ssh://git-codecommit.us-west-2.amazonaws.com/v1/repos/greengrass-iot-cicd-sample
         ssh_private_key:
-          ${{ secrets.MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvVvtUGUE9HbKXMgaUBJQJwqKrjkfyHpeKwP8OrQEsQYAPh0blT2+d/vD5zsbMd6TlFf04aeGp+zqngNa2Q0+IEXa3mV0vWd0TyYe8x1ewRkXTUm+z64/HpTCCVPCs6ubf3zs9yhltbgFBESU6qJCLV635KPA+XSHBBibW2QDTGkzBMR3SwveP8OTTwlX/azsbpyfxE8csQUYAQvrDpJVr3pHaxykzKzLYkTadUWp8JbHLj90m7B/HKOqUc94fdL+wcqzm2mu3G85rxOkZsqypU0KYhS2Bq5N1d1BzJKz+7/zaIbHG/JE09hMQeUGsqizH+GGOTx4S/xOY6iouQcQPQIDAQAB }}
+          ${{ secrets.CODECOMMIT_SSH_PRIVATE_KEY }}
         ssh_username:                                   # <-- (for codecommit) you need to specify ssh-key-id as ssh username.
-          ${{ secrets.APKAWY6ROYTWTZZ4PMFH }}
+          ${{ APKAWY6ROYTWTZZ4PMFH }}
