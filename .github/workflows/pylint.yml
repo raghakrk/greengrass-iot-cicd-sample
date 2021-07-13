@@ -6,7 +6,11 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        python-version: [3.7, 3.8, 3.9]
+    env:
+      workdir: ./
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python 3.9
@@ -19,4 +23,4 @@ jobs:
         pip install pylint
     - name: Analysing the code with pylint
       run: |
-        python3 -m pylint ./*.py
+        python3 -m pylint --rcfile=.pylintrc ${{ env.workdir }}/*.py
