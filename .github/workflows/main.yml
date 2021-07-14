@@ -25,7 +25,6 @@ jobs:
         python3 -m pylint --rcfile=.pylintrc ${{ env.workdir }}*.py
 
   to_codecommit:                                        # <-- different jobs are executed in parallel.
-
     runs-on: ubuntu-18.04
     steps:
     - uses: actions/checkout@v2
