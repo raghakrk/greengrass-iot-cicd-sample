@@ -1,5 +1,8 @@
 """
 This is a sample python script
 """
+import os
 if __name__ == '__main__':
     print("Hello World")
+    print("Current directory is {}".format(os.getcwd()))
+    
