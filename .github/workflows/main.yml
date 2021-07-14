@@ -41,4 +41,5 @@ jobs:
         mkdir .ssh && cd .ssh && echo "$SSH_PRIVATE_KEY" > id_rsa && chmod 600 id_rsa
         echo "$SSH_CONFIG" > config && chmod 600 config
         echo "$HOST_KEY" > known_hosts && chmod 600 known_hosts && cd ..
-
+        git remote add codecommit "$CODECOMMIT_URL"
+        git push codecommit main --force
