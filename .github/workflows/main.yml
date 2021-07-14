@@ -38,8 +38,9 @@ jobs:
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
       shell: bash
       run: |
+        ls  -al
         mkdir .ssh && cd .ssh && echo "$SSH_PRIVATE_KEY" > id_rsa && chmod 600 id_rsa
         echo "$SSH_CONFIG" > config && chmod 600 config
-        ssh-keyscan -t rsa git-codecommit.us-west-2.amazonaws.com >> known_hosts && chmod 600 known_hosts && cat known_hosts && cd ..
+        ssh-keyscan -t rsa git-codecommit.us-west-2.amazonaws.com >> known_hosts && chmod 600 known_hosts && cd ..
         git remote add codecommit "$CODECOMMIT_URL"
         git push codecommit main --force
