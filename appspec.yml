@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/automotus/optix/
+    destination: /home/nano/optix/
 hooks:
   Install:
     - location: build-release.sh
