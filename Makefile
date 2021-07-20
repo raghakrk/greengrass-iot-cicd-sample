@@ -5,9 +5,7 @@ SRCS=src/lambda/hello_world.cpp
 
 all: hello
 
-hello: 
-    $(CXX) $(SRCS) -o hello
+hello: $(CXX) $(SRCS) -o hello
 
-clean:
-    $(RM) hello
+clean: $(RM) hello
  
