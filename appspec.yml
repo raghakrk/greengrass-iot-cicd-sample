@@ -1,0 +1,10 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /home/automotus/optix/
+hooks:
+  Install:
+    - location: build-release.sh
+      timeout: 60
+      runas: root
