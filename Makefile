@@ -3,6 +3,10 @@ RM=rm -f
 
 SRCS=src/lambda/hello_world.cpp
 
-all: $(CXX) $(SRCS) -o hello
+all: hello
 
-clean: $(RM) hello
+hello: $(SRCS)
+	$(CXX) $(SRCS) -o hello
+
+clean:
+	$(RM) hello
