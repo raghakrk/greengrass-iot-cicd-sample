@@ -5,6 +5,6 @@ files:
     destination: /home/nano/optix/
 hooks:
   AfterInstall:
-    - location: build-release.sh
+    - location: ./build-release.sh
       timeout: 60
       runas: root
