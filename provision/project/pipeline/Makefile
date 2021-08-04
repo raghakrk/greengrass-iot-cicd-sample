@@ -5,7 +5,6 @@ SHELL := /bin/bash
 init: 
 	@echo Deploy Account is $(CDK_DEFAULT_ACCOUNT)
 	@echo Deploy Region is $(CDK_DEFAULT_REGION)
-	npm install cdk@1.59.0 -y
 	python3 -m venv venv/
 	venv/bin/python3 --version
 	venv/bin/pip install git-remote-codecommit
