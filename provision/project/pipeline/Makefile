@@ -19,3 +19,11 @@ clean:
 	rm -rf lib/*.egg-info || true
 	rm -rf cdk.out || true
 	rm cdk.context.json || true
+
+deploy-pipeline:
+	npx cdk deploy iot-gg-cicd-workshop-pipelines --require-approval never
+
+list: 
+	npx cdk list
+
+
