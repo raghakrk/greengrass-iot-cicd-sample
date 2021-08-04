@@ -3,9 +3,9 @@ Cdk app
 """
 from aws_cdk import core
 
-from lib.greengrass_stack import GreengrassComponentDefinitions
+from lib.greengrass_stack import PipelineStack
 
 app = core.App()
-GreengrassComponentDefinitions(app, "s3trigger")
+PipelineStack(app, "greengrass_pipeline")
 
 app.synth()
