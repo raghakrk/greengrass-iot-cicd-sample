@@ -26,4 +26,4 @@ deploy-pipeline:
 list: 
 	npx cdk list
 
-
+all: clean init deploy-pipeline
