@@ -1,0 +1,38 @@
+{
+    "components": {
+        "HelloWorld-example-cpp": {
+            "componentVersion": "1.0.2"
+        },
+        "aws.greengrass.Cli": {
+            "componentVersion": "2.3.0"
+        },
+        "aws.greengrass.Nucleus": {
+            "componentVersion": "2.3.0"
+        },
+        "aws.greengrass.ShadowManager": {
+            "componentVersion": "2.0.2"
+        }
+    },
+    "creationTimestamp": "2021-08-03 13:02:37.489000-07:00",
+    "deploymentId": "f518f549-24c8-4298-be55-18485f0662e2",
+    "deploymentName": "iot-gg-main",
+    "deploymentPolicies": {
+        "componentUpdatePolicy": {
+            "action": "NOTIFY_COMPONENTS",
+            "timeoutInSeconds": 60
+        },
+        "failureHandlingPolicy": "ROLLBACK"
+    },
+    "deploymentStatus": "ACTIVE",
+    "iotJobArn": "arn:aws:iot:us-west-2:465906353389:job/25ea08e5-bcfc-4528-9437-4109765820fe",
+    "iotJobConfiguration": {
+        "jobExecutionsRolloutConfig": {
+            "maximumPerMinute": 1000
+        }
+    },
+    "iotJobId": "25ea08e5-bcfc-4528-9437-4109765820fe",
+    "isLatestForTarget": true,
+    "revisionId": "36",
+    "tags": {},
+    "targetArn": "arn:aws:iot:us-west-2:465906353389:thinggroup/main"
+}
