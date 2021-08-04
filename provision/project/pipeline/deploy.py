@@ -23,7 +23,7 @@ def create_new_deployment(deployment_config, target_arn, deployment_name):
             deploymentName=deployment_name,
             components={
                 'HelloWorld-example-cpp': {
-                    'componentVersion': '1.0.2'
+                    'componentVersion': '1.0.0'
                 },
                 'aws.greengrass.ShadowManager':{
                     'componentVersion': '2.0.2'
