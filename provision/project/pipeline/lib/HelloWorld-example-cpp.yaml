@@ -1,0 +1,26 @@
+---
+RecipeFormatVersion: "2020-01-25"
+ComponentName: "HelloWorld-example-cpp"
+ComponentVersion: "1.0.0"
+ComponentType: "aws.greengrass.generic"
+ComponentDescription: "My first Greengrass component."
+ComponentPublisher: "Me"
+ComponentConfiguration:
+  DefaultConfiguration:
+    Message: "world"
+Manifests:
+- Platform:
+    os: "linux"
+  Name: "Linux"
+  Lifecycle:
+    Run:
+      Script: "cd {artifacts:decompressedPath}/deploy_package && ./hello"
+      RequiresPrivilege: true
+  Artifacts:
+  - Uri: "s3://iot-gg-cicd-sample/deploy_package.zip"
+    Algorithm: "SHA-256"
+    Unarchive: "ZIP"
+    Permission:
+      Read: "ALL"
+      Execute: "ALL"
+Lifecycle: {}
