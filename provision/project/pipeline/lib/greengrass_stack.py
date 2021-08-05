@@ -23,7 +23,8 @@ class PipelineStack(core.Stack):
         super().__init__(scope, id, **kwargs)
 
         code = codecommit.IRepository(
-            self, "CodeRepo", repository_name="greengrass-iot-cicd-sample", repository_arn="")
+            self, "CodeRepo", repository_name="greengrass-iot-cicd-sample"
+        )
 
         # create a server application
         serverApplication = code_deploy.ServerApplication(
