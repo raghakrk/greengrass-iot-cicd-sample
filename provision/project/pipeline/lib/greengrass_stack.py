@@ -47,34 +47,34 @@ class PipelineStack(core.Stack):
             ),
         )
         
-        inline_recipe_="""
-        ---
-        RecipeFormatVersion: "2020-01-25"
-        ComponentName: "HelloWorld-example-cpp"
-        ComponentVersion: "1.0.0"
-        ComponentType: "aws.greengrass.generic"
-        ComponentDescription: "My first Greengrass component."
-        ComponentPublisher: "Me"
-        ComponentConfiguration:
-        DefaultConfiguration:
-            Message: "world"
-        Manifests:
-        - Platform:
-            os: "linux"
-        Name: "Linux"
-        Lifecycle:
-            Run:
-            Script: "cd {artifacts:decompressedPath}/deploy_package && ./hello"
-            RequiresPrivilege: true
-        Artifacts:
-        - Uri: "s3://iot-gg-cicd-sample/deploy_package.zip"
-            Algorithm: "SHA-256"
-            Unarchive: "ZIP"
-            Permission:
-            Read: "ALL"
-            Execute: "ALL"
-        Lifecycle: {}           
-        """
+        # inline_recipe_="""
+        # ---
+        # RecipeFormatVersion: "2020-01-25"
+        # ComponentName: "HelloWorld-example-cpp"
+        # ComponentVersion: "1.0.0"
+        # ComponentType: "aws.greengrass.generic"
+        # ComponentDescription: "My first Greengrass component."
+        # ComponentPublisher: "Me"
+        # ComponentConfiguration:
+        # DefaultConfiguration:
+        #     Message: "world"
+        # Manifests:
+        # - Platform:
+        #     os: "linux"
+        # Name: "Linux"
+        # Lifecycle:
+        #     Run:
+        #     Script: "cd {artifacts:decompressedPath}/deploy_package && ./hello"
+        #     RequiresPrivilege: true
+        # Artifacts:
+        # - Uri: "s3://iot-gg-cicd-sample/deploy_package.zip"
+        #     Algorithm: "SHA-256"
+        #     Unarchive: "ZIP"
+        #     Permission:
+        #     Read: "ALL"
+        #     Execute: "ALL"
+        # Lifecycle: {}           
+        # """
         # greengrass_component = greengrassv2.CfnComponentVersion(
         #     self,
         #     "GreengrassComponent",
@@ -192,97 +192,3 @@ class PipelineStack(core.Stack):
                                                                   project=cdk_deploy_main)]),
                               ]
                               )
-
-        # cdk_deploy_prod = codebuild.PipelineProject(
-        #     self,
-        #     "DeployProd",
-        #     project_name="iot-gg-cicd-workshop-deploy-main",
-        #     build_spec=codebuild.BuildSpec.from_object(dict(
-        #                     version="0.2",
-        #                     phases=dict(
-        #                         install=dict(
-        #                             commands=[
-        #                                 "apt-get install zip",
-        #                                 "aws s3 cp s3://iot-gg-cicd-sample/deploy_package.zip prod_deploy.zip",
-        #                                 "unzip -o prod_deploy.zip",
-        #                                 "ls -la",
-        #                             ]),
-        #                         build=dict(
-        #                             commands=[
-        #                                 "ls -la",
-        #                                 "make deploy-greengrass-prod",
-        #                             ])),
-        #                         artifacts={
-        #                         "base-directory": ".",
-        #                         "files": [
-        #                             "**/*"]},
-        #                         environment=dict(buildImage=
-        #                         codebuild.LinuxBuildImage.STANDARD_2_0))))
-
-        # add_policies(
-        #     cdk_deploy_prod,
-        #     [
-        #         "AWSCloudFormationFullAccess",
-        #         "AWSGreengrassFullAccess",
-        #         "AmazonSSMFullAccess",
-        #         "ResourceGroupsandTagEditorReadOnlyAccess",
-        #         "AWSLambdaFullAccess"
-        #     ])
-
-        # prod_source_output = codepipeline.Artifact()
-        # codepipeline.Pipeline(self,
-        #                       "PipelineProd",
-        #                       pipeline_name="iot-gg-cicd-workshop-pipeline-main",
-        #                       stages=[
-        #                           codepipeline.StageProps(stage_name="Source",
-        #                                                   actions=[
-        #                                                       codepipeline_actions.S3SourceAction(
-        #                                                           action_name="S3_Source",
-        #                                                           bucket=prod_deploy_param_bucket,
-        #                                                           bucket_key="deploy_params.zip",
-        #                                                           output=prod_source_output)]),
-        #                           codepipeline.StageProps(stage_name="Deploy_GreenGrass_Prod",
-        #                                                   actions=[
-        #                                                       codepipeline_actions.CodeBuildAction(
-        #                                                           action_name="Deploy_Prod",
-        #                                                           project=cdk_deploy_prod,
-        #                                                           input=prod_source_output)]),
-        #                       ]
-        #                       )
-        # prod_source_bucket.grant_read_write(cdk_deploy_canary.role)
-        # prod_source_bucket.grant_read(cdk_deploy_prod.role)
-        # prod_deploy_param_bucket.grant_read_write(cdk_deploy_canary.role)
-
-        cdk_deploy_main = codebuild.PipelineProject(
-            self,
-            "DeployMain",
-            project_name="iot-gg-cicd-workshop-deploy-main",
-            build_spec=codebuild.BuildSpec.from_object(dict(
-                            version="0.2",
-                            phases=dict(
-                                build=dict(
-                                    commands=[
-                                        "ls -la",
-                                        "cd provision/project/pipeline",
-                                        "python3 deploy.py --target-arn arn:aws:iot:us-west-2:465906353389:thinggroup/main --deployment-name iot-gg-main",
-                                    ])),
-                                artifacts={
-                                "base-directory": ".",
-                                "files": [
-                                    "**/*"]},
-                                environment=dict(buildImage=
-                                codebuild.LinuxBuildImage.STANDARD_2_0))),
-            environment_variables={
-                "AWS_DEFAULT_REGION": codebuild.BuildEnvironmentVariable(value=kwargs['env'].region)
-            })
-        
-        policy_names = [
-            "AWSCloudFormationFullAccess", 
-            "AmazonS3FullAccess",
-            "AWSGreengrassFullAccess",
-            "IAMFullAccess",
-        ]
-        for policy_name in policy_names:
-            cdk_deploy_main.role.add_managed_policy(
-                iam.ManagedPolicy.from_aws_managed_policy_name(policy_name)
-            )
