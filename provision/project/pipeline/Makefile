@@ -11,7 +11,9 @@ init:
 	venv/bin/pip install -r requirements.txt
 	npx cdk bootstrap aws://$(CDK_DEFAULT_ACCOUNT)/$(CDK_DEFAULT_REGION)
 
-clean:	
+clean:
+	@echo Deploy Account is $(CDK_DEFAULT_ACCOUNT)
+	@echo Deploy Region is $(CDK_DEFAULT_REGION)
 	rm -rf dist || true
 	rm -rf out || true
 	rm -rf venv || true
@@ -20,7 +22,10 @@ clean:
 	rm cdk.context.json || true
 
 deploy-pipeline:
-	npx cdk deploy iot-gg-cicd-workshop-pipelines --require-approval never
+	npx cdk deploy greengrasspipeline --require-approval never
+
+destroy-pipeline:
+	npx cdk destroy greengrasspipeline
 
 list: 
 	npx cdk list
