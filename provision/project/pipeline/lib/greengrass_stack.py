@@ -156,6 +156,7 @@ class PipelineStack(core.Stack):
 
         source_output = codepipeline.Artifact()
         buildartifact_output = codepipeline.Artifact()
+
         cdk_build_output = codepipeline.Artifact("CdkBuildOutput")
         source_output = codepipeline.Artifact(artifact_name='source')
         codepipeline.Pipeline(self,
@@ -168,7 +169,7 @@ class PipelineStack(core.Stack):
                                                                   action_name="CodeCommit_Source",
                                                                   repository=code,
                                                                   branch="main",
-                                                                  output=source_output)]),
+                                                    output=source_output)]),
                                   codepipeline.StageProps(stage_name="Build_artifacts",
                                                           actions=[
                                                               codepipeline_actions.CodeDeployServerDeployAction(
