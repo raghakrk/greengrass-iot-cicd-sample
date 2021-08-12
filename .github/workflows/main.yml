@@ -43,6 +43,7 @@ jobs:
         sudo chmod -R 777 .
         echo "Before codecommit"
         git remote add codecommit "$CODECOMMIT_URL"
+        echo "After codecommit"
         echo $(git symbolic-ref --short HEAD)
         git push codecommit main --force
         sudo chmod -R 777 $dir
