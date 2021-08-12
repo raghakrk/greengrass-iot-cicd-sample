@@ -45,5 +45,7 @@ jobs:
         git remote add codecommit "$CODECOMMIT_URL"
         echo "After codecommit"
         echo $(git symbolic-ref --short HEAD)
+        echo "Before push"
         git push codecommit main --force
+        echo "After push"
         sudo chmod -R 777 $dir
