@@ -1,9 +1,9 @@
 name: 'Lint Python Projects and Sync with AWS codecommit'
 
 on:
-  push:
-    branches:
-      - main
+  release:
+    types: # This configuration does not affect the page_build event above
+      - created
 
 jobs:
   build:
