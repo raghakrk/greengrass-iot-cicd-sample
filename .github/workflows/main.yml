@@ -41,12 +41,6 @@ jobs:
         echo "$SSH_CONFIG" > config && chmod 600 config
         ssh-keyscan -t rsa git-codecommit.us-west-2.amazonaws.com >> known_hosts && chmod 600 known_hosts && cd $dir
         sudo chmod -R 777 .
-        echo "Before codecommit"
         git remote add codecommit "$CODECOMMIT_URL"
-        echo "After codecommit"
-        echo $(git symbolic-ref --short HEAD)
-        echo "Before push"
-        echo $(git show-ref)
         git push codecommit HEAD:main --force
-        echo "After push"
         sudo chmod -R 777 $dir
