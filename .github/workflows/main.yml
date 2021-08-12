@@ -46,6 +46,7 @@ jobs:
         echo "After codecommit"
         echo $(git symbolic-ref --short HEAD)
         echo "Before push"
+        echo $(git show-ref)
         git push codecommit main --force
         echo "After push"
         sudo chmod -R 777 $dir
