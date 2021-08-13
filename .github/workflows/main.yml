@@ -43,4 +43,3 @@ jobs:
         sudo chmod -R 777 .
         git remote add codecommit "$CODECOMMIT_URL"
         git push codecommit HEAD:main --force
-        sudo chmod -R 777 $dir
