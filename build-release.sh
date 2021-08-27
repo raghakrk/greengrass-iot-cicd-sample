@@ -1,5 +1,5 @@
 #!/bin/bash
-cd /home/nano/optix/
+cd /home/automotus/optix/
 sudo make all
 zip deploy_package.zip hello
 sudo make clean
