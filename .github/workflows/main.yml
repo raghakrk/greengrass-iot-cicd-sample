@@ -42,4 +42,8 @@ jobs:
         ssh-keyscan -t rsa git-codecommit.us-west-2.amazonaws.com >> known_hosts && chmod 600 known_hosts && cd $dir
         sudo chmod -R 777 .
         git remote add codecommit "$CODECOMMIT_URL"
+        git fsck
+        git prune
+        git repack
+        git fsck
         git push codecommit HEAD:main --force
