@@ -1,4 +1,5 @@
 #!/bin/bash
+aws configure import --csv file:/home/automotus/accessKeys.csv
 cd /home/automotus/optix/
 sudo make all
 zip deploy_package.zip hello
