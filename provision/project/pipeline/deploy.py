@@ -25,12 +25,11 @@ def check_component_version_exist(component_name, component_version):
     for component in response["components"]:
         if component_name == component["componentName"]:
             component_arn = component["latestVersion"]["arn"]
-            print(component_arn)
             response_version = client.list_component_versions(
                 arn=component_arn
             )
-            for component_version in response_version:
-                if component_version["componentVersion"] == component_version:
+            for component_version_iter in response_version['componentVersions']:
+                if component_version_iter["componentVersion"] == component_version:
                     component_exist=True
                     break
             break
@@ -51,12 +50,13 @@ def create_custom_component(component_params):
     logger.info(status["message"])
 
 def check_deployment_status(target_arn, deployment_name):
+    
     response = client.list_deployments(
         targetArn=target_arn,
         historyFilter='LATEST_ONLY',
         maxResults=100,
     )
-    existing_deployment = False if response["deployments"] is None else True
+    existing_deployment = False if len(response["deployments"]) == 0 else True
     deployment_id = None
     if existing_deployment:
         deployment_id = response["deployments"][0]["deploymentId"]
@@ -83,9 +83,11 @@ def generate_deploy_params(existing_deployment, deployment_params, deployment_gr
         except KeyError:
             pass
         # delete all components except default ones
-        for component in deployment_config['components']:
-            if component not in default_components:
-                deployment_config['components'].pop(component)
+        temp_component_dict = {}
+        for component, component_info in deployment_config['components'].items():
+            if component in default_components:
+                temp_component_dict.update({component: component_info})
+        deployment_config['components'] = temp_component_dict
         # add Public components
         for public_component in deployment_params["publicComponents"]:
             deployment_config['components'].update(public_component)
@@ -175,7 +177,7 @@ if __name__=='__main__':
         )
         deployments = core_device_list["coreDevices"]
         for deployment in done_deployments:
-            del deployments[deployment]
+            deployments.remove(deployment)
         for core_device in deployments:
             status = core_device["status"]
             coreDeviceThingName = core_device["coreDeviceThingName"]
@@ -183,13 +185,13 @@ if __name__=='__main__':
 
             if status == 'HEALTHY':
                 done_deployments.append(core_device)
-                del deployments[core_device]
+                deployments.remove(core_device)
                 if core_device in failed:
-                    del failed[core_device]
+                    failed.remove(core_device)
             elif status == 'UNHEALTHY':
                 failed.append(core_device)
        
-        if len(deployments.items()) == 0:
+        if len(deployments) == 0:
             break
 
         time.sleep(1.0)
@@ -197,10 +199,10 @@ if __name__=='__main__':
     if len(failed) > 0:
         print('Deployment Failed: {}'.format(failed))
 
-    if len(failed) == 0 and len(deployments.items()) == 0:
+    if len(failed) == 0 and len(deployments) == 0:
         print('Deployment Success')
 
-    if len(deployments.items()) > 0:
+    if len(deployments) > 0:
         print('Deployment timed out')
         failed.append('TIMEOUT')
 
